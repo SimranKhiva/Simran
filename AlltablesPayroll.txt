@@ -1,0 +1,620 @@
+
+select * from pp_bonus;
+select * from pp_department;
+select * from pp_deduction;
+select * from pp_salary;
+
+select * from pp_employee;
+select * from PP_payroll;
+select * from pp_timeseet;
+
+select * from empcategory;
+select * from employeetype;
+select * from jobtitle;
+
+ALTER TABLE pp_salary ADD FOREIGN KEY(EMPID) REFERENCES pp_employee(empid);
+ALTER TABLE PP_BONUS ADD FOREIGN KEY(EMPID) REFERENCES pp_employee(empid);
+ALTER TABLE PP_DEDUCTION ADD FOREIGN KEY(EMPID) REFERENCES pp_employee(empid);
+ALTER TABLE PP_TIMESEET ADD FOREIGN KEY(EMPID) REFERENCES pp_employee(empid);
+ALTER TABLE PP_PAYROLL ADD FOREIGN KEY(EMPID) REFERENCES pp_employee(empid);
+ALTER TABLE pp_salary ADD FOREIGN KEY(DEDUCID) REFERENCES pp_deduction(DEDUCID);
+alter table PP_PAYROLL ADD FOREIGN KEY(salaryid) REFERENCES pp_salary(salaryid);
+
+SELECT * FROM all_cons_colums WHERE table_name ='PP_DEDUCTION';
+SELECT *
+  FROM user_cons_columns
+ WHERE table_name = 'PP_DEDUCTION';
+ 
+ALTER TABLE pp_employee ADD FOREIGN KEY(TYPEID) REFERENCES EMPLOYEETYPE(TYPEID);
+ALTER TABLE pp_employee ADD FOREIGN KEY(DEPID) REFERENCES PP_DEPARTMENT(DEPTID);
+ALTER TABLE pp_employee ADD FOREIGN KEY(JOBID) REFERENCES JOBTITLE(JOBID);
+ALTER TABLE pp_employee ADD FOREIGN KEY(CATID) REFERENCES EMPCATEGORY(CATID);
+
+
+
+---tariq table ---------**********************************************************************************************
+CREATE TABLE PP_EMPLOYEE 
+(
+  EMPID NUMBER NOT NULL 
+, DEPID NUMBER NOT NULL 
+, JOBID NUMBER NOT NULL 
+, TYPEID NUMBER NOT NULL 
+, CATID NUMBER NOT NULL 
+, FIRSTNAME VARCHAR2(20) 
+, LASTNAME VARCHAR2(20) 
+, SSN NUMBER 
+, DOB DATE 
+, ADDRESS VARCHAR2(20) 
+, CITY VARCHAR2(20) 
+, STATE VARCHAR2(20) 
+, POSTALCODE VARCHAR2(20) 
+, COLUMN1 VARCHAR2(20) 
+, CONSTRAINT PP_EMPLOYEE_PK PRIMARY KEY 
+  (
+    EMPID 
+  )
+  ENABLE 
+);
+
+INSERT INTO PP_EMPLOYEE (EMPID, DEPID, JOBID, TYPEID, CATID, FIRSTNAME, LASTNAME, SSN, DOB, ADDRESS, CITY, STATE, POSTALCODE)
+VALUES (909,1001, 2106, 2501,1101,'KELLY','TA',121211221, TO_DATE('17/12/2015', 'DD/MM/YYYY'), '202 PHARMACY AVE', 'TORONTO','ON','M1L4E8' );
+INSERT INTO PP_EMPLOYEE (EMPID, DEPID, JOBID, TYPEID, CATID, FIRSTNAME, LASTNAME, SSN, DOB, ADDRESS, CITY, STATE, POSTALCODE)
+VALUES (910,2002, 2107, 2502,1102,'jOHN','TAAS',121211221, TO_DATE('17/12/1996', 'DD/MM/YYYY'), '2212 PHARMACY AVE', 'TORONTO','ON','M1L0E8' );
+INSERT INTO PP_EMPLOYEE (EMPID, DEPID, JOBID, TYPEID, CATID, FIRSTNAME, LASTNAME, SSN, DOB, ADDRESS, CITY, STATE, POSTALCODE)
+VALUES (911,4004, 2108, 2503,1103,'KEY','TAQ',121211221, TO_DATE('17/12/1994', 'DD/MM/YYYY'), '212 LAOL AVE', 'TORONTO','ON','M1L9E8' );
+INSERT INTO PP_EMPLOYEE (EMPID, DEPID, JOBID, TYPEID, CATID, FIRSTNAME, LASTNAME, SSN, DOB, ADDRESS, CITY, STATE, POSTALCODE)
+VALUES (912,5005, 2109, 2504,1104,'IAO','BQOA',121211221, TO_DATE('17/12/1993', 'DD/MM/YYYY'), '9192 GAL AVE', 'TORONTO','ON','M1L7E8' );
+INSERT INTO PP_EMPLOYEE (EMPID, DEPID, JOBID, TYPEID, CATID, FIRSTNAME, LASTNAME, SSN, DOB, ADDRESS, CITY, STATE, POSTALCODE)
+VALUES (913,6006, 2110, 2505,1105,'SIM','QOO',121211221, TO_DATE('17/12/1999', 'DD/MM/YYYY'), '9190 MALVANO AVE', 'TORONTO','ON','M1L7Y8' );
+
+
+CREATE TABLE PP_PAYROLL 
+(
+  PAYROLLID NUMBER NOT NULL 
+, EMPID NUMBER NOT NULL 
+, STARTDATE DATE NOT NULL 
+, ENDDATE DATE NOT NULL 
+, HOURSWORKED NUMBER NOT NULL 
+, GROSSPAY NUMBER NOT NULL 
+, DEDUCTIONS NUMBER 
+, NETPAY NUMBER NOT NULL 
+, CONSTRAINT PP_PAYROLL_PK PRIMARY KEY 
+  (
+    PAYROLLID 
+  )
+  ENABLE 
+);
+
+
+CREATE TABLE PP_TIMESEET 
+(
+  TIMEID NUMBER NOT NULL 
+, EMPID NUMBER 
+, PROJECTID NUMBER 
+, CHECKIN TIMESTAMP 
+, CHECKOUT TIMESTAMP 
+, ROUNDEDTIME NUMBER 
+, WORKDESC VARCHAR2(20) 
+, CONSTRAINT PP_TIMESEET_PK PRIMARY KEY 
+  (
+    TIMEID 
+  )
+  ENABLE 
+);
+
+SELECT * FROM PP_TIMESEET;
+
+
+INSERT INTO PP_PAYROLL (PAYROLLID,EMPID,STARTDATE,ENDDATE,HOURSWORKED,GROSSPAY,DEDUCTIONS,NETPAY)
+VALUES (10, 909,TO_DATE('17/12/2018', 'DD/MM/YYYY'),TO_DATE('22/12/2018', 'DD/MM/YYYY'), 20, 2000,0,2000 );
+INSERT INTO PP_PAYROLL (PAYROLLID,EMPID,STARTDATE,ENDDATE,HOURSWORKED,GROSSPAY,DEDUCTIONS,NETPAY)
+VALUES (11, 910,TO_DATE('17/12/2018', 'DD/MM/YYYY'),TO_DATE('22/12/2018', 'DD/MM/YYYY'), 50, 4000,0,2000);
+INSERT INTO PP_PAYROLL (PAYROLLID,EMPID,STARTDATE,ENDDATE,HOURSWORKED,GROSSPAY,DEDUCTIONS,NETPAY)
+VALUES (12, 911,TO_DATE('17/12/2018', 'DD/MM/YYYY'),TO_DATE('22/12/2018', 'DD/MM/YYYY'), 30, 6000,0,2000 );
+INSERT INTO PP_PAYROLL (PAYROLLID,EMPID,STARTDATE,ENDDATE,HOURSWORKED,GROSSPAY,DEDUCTIONS,NETPAY)
+VALUES (13, 912,TO_DATE('17/12/2018', 'DD/MM/YYYY'),TO_DATE('22/12/2018', 'DD/MM/YYYY'), 20, 2000,0,2000 );
+INSERT INTO PP_PAYROLL (PAYROLLID,EMPID,STARTDATE,ENDDATE,HOURSWORKED,GROSSPAY,DEDUCTIONS,NETPAY)
+VALUES (14, 913,TO_DATE('17/12/2018', 'DD/MM/YYYY'),TO_DATE('22/12/2018', 'DD/MM/YYYY'), 60, 7000,0,2000 );
+--altering table payroll
+ALTER TABLE PP_PAYROLL ADD SALARYID NUMBER(15); 
+DESC PP_PAYROLL;
+UPDate pp_payroll set salaryid ='55' where payrollid= '10';
+UPDate pp_payroll set salaryid ='56' where payrollid= '11';
+UPDate pp_payroll set salaryid ='57' where payrollid= '12';
+UPDate pp_payroll set salaryid ='58' where payrollid= '13';
+UPDate pp_payroll set salaryid ='59' where payrollid= '14';
+
+
+
+INSERT INTO PP_TIMESEET (TIMEID,EMPID,PROJECTID,CHECKIN,CHECKOUT,ROUNDEDTIME,WORKDESC)
+VALUES (20, 909,2001, TO_TIMESTAMP('17/12/2018 06:14:00.742000000', 'DD/MM/YYYY HH24:MI:SS.FF'),TO_TIMESTAMP('22/12/2018 07:14:00.742000000', 'DD/MM/YYYY HH24:MI:SS.FF'), 20, 'SOFTWARE ENGINEER');
+INSERT INTO PP_TIMESEET (TIMEID,EMPID,PROJECTID,CHECKIN,CHECKOUT,ROUNDEDTIME,WORKDESC)
+VALUES (21, 910,2001, TO_TIMESTAMP('17/12/2018 04:14:00.742', 'DD/MM/YYYY HH24:MI:SS.FF'),TO_TIMESTAMP('22/12/2018 02:14:00.212000000', 'DD/MM/YYYY HH24:MI:SS.FF'), 20, 'WEBSITE ENGINEER');
+INSERT INTO PP_TIMESEET (TIMEID,EMPID,PROJECTID,CHECKIN,CHECKOUT,ROUNDEDTIME,WORKDESC)
+VALUES (22, 911,2001, TO_TIMESTAMP('17/12/2018 08:14:00.32', 'DD/MM/YYYY HH24:MI:SS.FF'),TO_TIMESTAMP('22/12/2018 05:14:00.712', 'DD/MM/YYYY HH24:MI:SS.FF'), 20, 'SOFTWARE DEV');
+INSERT INTO PP_TIMESEET (TIMEID,EMPID,PROJECTID,CHECKIN,CHECKOUT,ROUNDEDTIME,WORKDESC)
+VALUES (23, 912,2001, TO_TIMESTAMP('17/12/2018 10:14:00.7', 'DD/MM/YYYY HH24:MI:SS.FF'),TO_TIMESTAMP('22/12/2018 04:14:00.121', 'DD/MM/YYYY HH24:MI:SS.FF'), 20, 'MACHINE ENGINEER');
+INSERT INTO PP_TIMESEET (TIMEID,EMPID,PROJECTID,CHECKIN,CHECKOUT,ROUNDEDTIME,WORKDESC)
+VALUES (24, 913,2001, TO_TIMESTAMP('17/12/2018 12:14:00.79', 'DD/MM/YYYY HH24:MI:SS.FF'),TO_TIMESTAMP('22/12/2018 09:14:00.912', 'DD/MM/YYYY HH24:MI:SS.FF'), 20, 'DESIGNER');
+
+
+
+
+--kelly part---------**********************************************************************************************
+-- COMP214 Project 
+-- Salary Management System 
+-- Create Tables 
+
+-- Create Employee Category Table 
+CREATE TABLE EMPCATEGORY (
+	CATID NUMBER(5), 
+	CATNAME VARCHAR2(50), 
+	CATDESC VARCHAR2(2000),
+	CONSTRAINT EMPCAT_ID_PK PRIMARY KEY(CATID) 
+);
+-- Insert data > https://www.unr.edu/hr/training-and-development/administrative-resources-for-hr-liaisons/employee-categories
+INSERT INTO EMPCATEGORY VALUES(1101, 'ACADEMIC FACULTY', 'Staff members who specifically create and disseminate scholarly information through teaching, research and library services.');
+INSERT INTO EMPCATEGORY VALUES(1102, 'TEMPORARY FACULTY', 'Temporary faculty appointments are defined as positions for a duration of one year or less.');
+INSERT INTO EMPCATEGORY VALUES(1103, 'ADMINISTRATIVE FACULTY', 'Staff members who perform responsibilities related to the formation and implementation of managerial policies or general operations of the university.');
+INSERT INTO EMPCATEGORY VALUES(1104, 'GRADUATE ASSISTANT', 'These positions are offered through various academic departments and are paid by grants or state funds.');
+INSERT INTO EMPCATEGORY VALUES(1105, 'STUDENTS', 'Student employment is intended to be a learning experience that complements a student’s academic and career goals and provides valuable work experience.');
+INSERT INTO EMPCATEGORY VALUES(1106, 'TEMPORARY HOURLY', 'Non-exempt job duties are paid hourly and are typically part-time but may be full-time for a few months.');
+
+-- Create Employee Type Table 
+CREATE TABLE EMPLOYEETYPE (
+	TYPEID NUMBER(5),
+	TYPENAME VARCHAR2(50),
+	TYPEDESC VARCHAR2(2000),
+	CONSTRAINT EMPTYPE_ID_PK PRIMARY KEY(TYPEID)
+);
+-- Insert data > https://www.fairwork.gov.au/employee-entitlements/types-of-employees
+INSERT INTO EMPLOYEETYPE VALUES(2501, 'FULL-TIME', 'A full-time employee has ongoing employment and works, on average, around 38 hours each week. The actual hours of work for an employee in a particular job or industry are agreed between the employer and the employee and/or set by an award or registered agreement.');
+INSERT INTO EMPLOYEETYPE VALUES(2502, 'PART-TIME', 'A part-time employee works, on average, less than 38 hours per week. They usually work regular hours each week and is entitled to the same benefits as a full-time employee, but on a pro rata basis. They are a permanent employee or on a fixed-term contract.');
+INSERT INTO EMPLOYEETYPE VALUES(2503, 'CASUAL', 'A casual employee does not have a firm commitment in advance from an employer about how long they will be employed for, or the days (or hours) they will work. A casual employee also does not commit to all work an employer might offer.');
+INSERT INTO EMPLOYEETYPE VALUES(2504, 'FIXED TERM', 'Fixed term contract employees are employed for a specific period of time or task. For example a 6 month contract where employment ends after 6 months.');
+INSERT INTO EMPLOYEETYPE VALUES(2505, 'SHIFTWORKERS', 'A shiftworker is an employee who works shifts and gets an extra payment for working shift hours.');
+INSERT INTO EMPLOYEETYPE VALUES(2506, 'PROBATION', 'Employers can put their employees on a probation period (also known as a probationary period) to assess if employees are suitable for the role and business.');
+INSERT INTO EMPLOYEETYPE VALUES(2507, 'OUTWORKERS', 'Outworkers are contractors or employees who perform their work at home or at a place that wouldn’t normally be thought of as a business premises. Outworkers are common in the textile, clothing or footwear industry.');
+
+-- Create Job Title Table 
+CREATE TABLE JOBTITLE (
+	JOBID NUMBER(5),
+	JOBTITLE VARCHAR2(50),
+	JOBDESC VARCHAR2(2000), 
+	CONSTRAINT JOBTITLE_ID_PK PRIMARY KEY(JOBID)	
+);
+-- Insert data > https://www.thebalancecareers.com/job-titles-a-z-list-2061557
+-- TECHNICAL 
+INSERT INTO JOBTITLE VALUES(2106, 'ENGINEERING', 'Engineering is a broad work category that refers to jobs that use science and mathematics to solve a variety of problems.');
+INSERT INTO JOBTITLE VALUES(2107, 'ENVIRONMENTAL', 'You will need the scientific aptitude to understand and apply complex concepts in biology, chemistry, geology, and physics and will learn to apply both quantitative and qualitative analytical skills to solving problems and interpreting research data.');
+INSERT INTO JOBTITLE VALUES(2108, 'HEALTHCARE/MEDICAL', 'doctors, nurses, and surgeons, phlebotomists and radiologists.');
+INSERT INTO JOBTITLE VALUES(2109, 'INFORMATION TECHNOLOGY(IT)', 'People with jobs in the career field of information technology (IT) use computers, software, networks, servers, and other technology to manage and store data.');
+INSERT INTO JOBTITLE VALUES(2110, 'SCIENCE', 'All of those broad categories include many specializations, each with its own set of technical skills, knowledge, and educational requirements.');
+
+
+
+
+
+
+--simran part-------**********************************************************************************************
+
+--table 7
+create table PP_DEPARTMENT 
+(
+DEPTID NUMBER(15),
+MANAGERID number(10),
+DEPTPARENTID NUMBER(12),
+DEPTNAME VARCHAR2(20),
+LOCATION  VARCHAR2(18)
+);
+--constraints
+alter table PP_DEPARTMENT add constraint DPT_IDS__pk primary key(DEPTID); 
+desc PP_DEPARTMENT;
+
+insert into PP_DEPARTMENT values (1001,12,222145,'Accounting','SCARBROUGH');
+insert into PP_DEPARTMENT values (2002,13,332233,'Management','MISSISAGA');
+insert into PP_DEPARTBMENT values (3003,14,232322,'Marketing','BRAMPTON');
+insert into PP_DEPARTMENT values (4004,15,787822,'Finance','HAMILTON');
+insert into PP_DEPARTMENT values (5005,16,909022,'Commerce','NIAGRA FALLS');
+insert into PP_DEPARTMENT values (6006,17,909233,'FINFIN','LANDRA');
+
+SELECT * FROM PP_DEPARTMENT;
+
+DROP TABLE PP_Salary;
+--table 8
+create table PP_Salary
+(
+salaryID NUMBER(15),
+empid number(10),
+DEDUCID NUMBER(15),
+baseyear NUMBER(12),
+note VARCHAR2(60)
+);
+--constraints
+alter table PP_Salary add constraint salary_IDS__pk primary key(salaryID); 
+desc PP_Salary;
+
+insert into PP_Salary values (55,909,550,2013,'nice employee');
+insert into PP_Salary values (56,910,560,2014,'well done..!!');
+insert into PP_Salary values (57,911,570,2015,'hard worker');
+insert into PP_Salary values (58,912,580,2011,'well done..!!');
+insert into PP_Salary values (59,913,590,2010,'keep up');
+SELECT * FROM PP_Salary;
+
+
+--table 9
+create table PP_Bonus
+(
+bonusID NUMBER(15),
+empid number(10),
+datebonus date,
+bonuspayment number(15),
+note VARCHAR2(60)
+);
+--constraints
+alter table PP_Bonus add constraint bonus_IDS__pk primary key(bonusID); 
+desc PP_Bonus;
+
+insert into PP_Bonus values (60,909,TO_DATE('14/02/2015', 'DD/MM/YYYY'),200,'nice employee');
+insert into PP_Bonus values (61,910,TO_DATE('14/09/2015', 'DD/MM/YYYY'),240,'well done..!!');
+insert into PP_Bonus values (62,911,TO_DATE('12/04/2015', 'DD/MM/YYYY'),650,'hard worker');
+insert into PP_Bonus values (63,912,TO_DATE('11/04/2015', 'DD/MM/YYYY'),780,'well done..!!');
+insert into PP_Bonus values (64,913,TO_DATE('10/05/2015', 'DD/MM/YYYY'),410,'keep up');
+SELECT * FROM PP_Bonus;
+
+
+--table 10
+create table PP_Deduction 
+(
+deducID NUMBER(15),
+empID number(10),
+deductype VARCHAR(60),
+amount NUMBER(15),
+note  VARCHAR2(60)
+);
+
+--constraints
+alter table PP_Deduction add constraint Deduc_IDS__pk primary key(DEDUCID); 
+desc PP_Deduction;
+
+insert into PP_Deduction values (550,909,'Health Insurance',20000,'nice employee');
+insert into PP_Deduction values (560,910,'life insurance',24000,'well done..!!');
+insert into PP_Deduction values (570,911,'charitable',65000,'hard worker');
+insert into PP_Deduction values (580,912,'state income',78000,'well done..!!');
+insert into PP_Deduction values (590,913,'medicare',41000,'keep up');
+SELECT * FROM PP_Deduction;
+
+--------------------------------------------------------------------------------------------------------------
+
+--my queries
+select * from pp_bonus;
+select * from pp_department;
+select * from pp_deduction;
+select * from pp_salary;
+
+select * from pp_employee;
+select * from PP_payroll;
+select * from pp_timeseet;
+
+select * from empcategory;
+select * from employeetype;
+select * from jobtitle;
+
+
+--SEQ (using sequence to add departmentId)
+create sequence pp_seq_simran
+start with 7007
+increment by 1000
+minvalue 1001 maxvalue 100000
+cycle cache 2 order; --for making a cycle in two complete repeition
+
+--combining
+insert into pp_department(deptid , managerID) values ( pp_seq_simran.nextval , 18);
+select * from pp_department;
+insert into pp_department(deptid , managerID) values ( pp_seq_simran.nextval , 15);
+select * from pp_department;
+
+
+SELECT * FROM PP_BONUS;
+--views
+CREATE OR REPLACE VIEW BONUS_MERGED AS
+SELECT * FROM PP_BONUS 
+WHERE BONUSPAYMENT < 500
+WITH READ ONLY CONSTRAINT BONUS_ADDED_COSNT;
+
+SELECT * FROM BONUS_MERGED;
+
+
+desc ;
+--constraints
+SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE ,STATUS  FROM USER_CONSTRAINTS WHERE TABLE_NAME IN ('pp_department');
+
+SELECT * FROM SYS.USER_CONSTRAINTS WHERE TABLE_NAME='customers';
+
+--index
+SELECT * FROM pp_employee;
+CREATE INDEX Ind_dept_name ON pp_employee(depid,firstname);
+
+SELECT depid,firstname FROM  pp_employee WHERE depid = 2002 and firstname = 'jOHN';
+
+
+
+/
+-- using a pl/sql command
+SET SERVEROUTPUT ON;
+
+DECLARE 
+LV_PAYROLLID PP_PAYROLL.PAYROLLID%TYPE;
+LV_EMPID PP_PAYROLL.EMPID%TYPE;
+LV_GROSSPAY PP_PAYROLL.GROSSPAY%TYPE;
+
+/
+select * from customers;
+/
+BEGIN
+SELECT PAYROLLID , EMPID, GROSSPAY
+INTO  LV_PAYROLLID, LV_EMPID,LV_GROSSPAY
+FROM PP_PAYROLL WHERE SALARYID = '56';
+DBMS_OUTPUT.PUT_LINE(LV_PAYROLLID);
+DBMS_OUTPUT.PUT_LINE(LV_EMPID);
+DBMS_OUTPUT.PUT_LINE(LV_GROSSPAY);
+END;
+/
+
+--deleting
+select * from pp_department;
+set serveroutput on;
+
+BEGIN
+DELETE FROM pp_department WHERE deptId  = 7007 ;
+IF SQL%NOTFOUND THEN
+DBMS_OUTPUT.PUT_LINE('ROW NOT FOUND- DELETION FAILED');
+ELSE
+DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT || 'ROWS DELETED ');
+END IF;
+END;
+
+--using explicit making cursor
+set serveroutput on;
+
+DECLARE 
+    LV_PAYROLLID    PP_PAYROLL.PAYROLLID%TYPE;
+    LV_EMPID        PP_PAYROLL.EMPID%TYPE;
+    LV_GROSSPAY     PP_PAYROLL.GROSSPAY%TYPE;
+    CURSOR C12 IS
+    SELECT PAYROLLID , EMPID, GROSSPAY FROM PP_PAYROLL;
+BEGIN
+ OPEN C12;
+  LOOP
+    FETCH C12 INTO LV_PAYROLLID, LV_EMPID,LV_GROSSPAY;
+    EXIT WHEN C12%NOTFOUND;
+    dbms_output.put_line('ID: ' || LV_PAYROLLID || '  ' ||
+    'EMP ID: '|| LV_EMPID || ' ' || 'GROSS: ' ||  LV_GROSSPAY );
+  END LOOP;
+ CLOSE C12;
+END;
+  
+    
+--procedure
+ --select * from customers;
+CREATE OR REPLACE PROCEDURE my_pAYROLL_PRODEDURE IS   --PROCEDURE
+CURSOR C11 IS    --USING CURSOR
+   select * FROM PP_SALARY; 
+   R_CUR C11%ROWTYPE;
+BEGIN
+ OPEN C11;
+   DBMS_OUTPUT.PUT('CUSTOMER'||' '||'CITY');
+  LOOP
+    FETCH C11 INTO R_CUR;
+    EXIT WHEN C11%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE(R_CUR.SALARYID||' '||R_CUR.BASEYEAR);
+  END LOOP;
+ CLOSE C11;
+END;
+/
+DESC PROCEDURE my_pAYROLL_PRODEDURE;
+
+
+--package
+CREATE OR REPLACE PACKAGE employee_pay_pkg IS
+  PROCEDURE nawa _pdue
+    (p_id IN bb_product.idproduct%TYPE,
+     p_sale OUT bb_product.saleprice%TYPE,
+     p_price OUT bb_product.price%TYPE);
+  PROCEDURE prod_search_pp
+    (p_id IN bb_product.productname%TYPE,
+     p_productname OUT bb_product.productname%TYPE,
+     p_price OUT bb_product.price%TYPE);
+END;
+
+CREATE OR REPLACE PACKAGE BODY product_info_pkg IS
+  PROCEDURE prod_search_pp
+    (p_id IN bb_product.idproduct%TYPE,
+     p_sale OUT bb_product.saleprice%TYPE,
+     p_price OUT bb_product.price%TYPE)
+    IS
+   BEGIN
+   	SELECT saleprice, price
+   	 INTO p_sale, p_price
+   	 FROM bb_product
+   	 WHERE idProduct = p_id;
+  END;
+  PROCEDURE prod_search_pp 
+    (p_id IN bb_product.productname%TYPE,
+     p_sale OUT bb_product.saleprice%TYPE,
+     p_price OUT bb_product.price%TYPE)
+     IS
+   BEGIN
+   	SELECT saleprice, price
+   	 INTO p_sale, p_price
+   	 FROM bb_product
+   	 WHERE productname = p_id;
+  END;    
+END;
+
+----------------------------------------------------------------
+
+--Testing the overload 
+select *   from bb_product where idproduct=5;
+--update bb_product set saleprice=9 where idproduct=5;
+DECLARE
+     lv_id_num  bb_product.idproduct%TYPE :=5;
+     lv_sale_num bb_product.saleprice%TYPE;
+     lv_price_num  bb_product.price%TYPE;
+BEGIN
+    product_info_pkg.prod_search_pp (lv_id_num,lv_sale_num,lv_price_num);
+    DBMS_OUTPUT.PUT_LINE('Sale  ' || lv_sale_num);
+    DBMS_OUTPUT.PUT_LINE('price  '||lv_price_num);
+     
+END;
+
+
+------------------------------------------------------------------
+
+-- testing overloading using productname 
+
+DECLARE
+     lv_id_num  bb_product.productname%TYPE :='Sumatra';
+     lv_sale_num bb_product.saleprice%TYPE;
+     lv_price_num  bb_product.price%TYPE;
+BEGIN
+    product_info_pkg.prod_search_pp (lv_id_num,lv_sale_num,lv_price_num);
+    DBMS_OUTPUT.PUT_LINE('Sale  ' || lv_sale_num);
+    DBMS_OUTPUT.PUT_LINE('price  '||lv_price_num);
+     
+END;
+
+select * from PP_SALARY;  
+--
+
+
+
+--Declaring the cursor in package
+CREATE OR REPLACE PACKAGE employee_pay_pkg IS
+CURSOR emp_cur IS    --USING CURSOR
+   select * FROM PP_SALARY; 
+   R1_CUR emp_cur%ROWTYPE;
+end;
+/
+
+SET SERVEROUTPUT ON;
+create or replace package body employee_pay_pkg is
+      procedure EMP_PRO is
+      R1_CUR emp_cur%ROWTYPE;
+      begin
+        open emp_cur;
+          loop
+              fetch emp_cur into R1_CUR;
+              exit when emp_cur%NOTFOUND;
+              DBMS_OUTPUT.put_line(R1_CUR.SALARYID);
+         end loop;
+        close emp_cur;
+      end;
+end;
+
+/   
+
+
+
+--declaring procedure in package 
+select * from pp_deduction;
+CREATE OR REPLACE PACKAGE time_pkg IS
+
+ PROCEDURE sheet_info_pro  --pakage procedure
+  (pv_empid out NUMBER,
+   pv_checkin OUT timestamp,
+   pv_checkout OUT timestamp );
+END;
+
+------------------------------------------------------------------------
+-- create package body 
+CREATE OR REPLACE PACKAGE BODY StateTax_Rate_pkg IS
+
+ PROCEDURE tax_info_pp
+  (pv_tax_nc out NUMBER := 0.035,
+   pv_tax_tx OUT NUMBER := 0.5,
+   pv_tax_tn OUT number := 0.02)
+  IS
+ BEGIN
+   SELECT idshopper, dtordered
+    INTO p_shop, p_date
+    FROM bb_basket
+    WHERE idbasket = p_basket;
+ EXCEPTION  --exeception handler
+   WHEN NO_DATA_FOUND THEN
+     DBMS_OUTPUT.PUT_LINE('Invalid basket id');
+ END basket_info_pp;
+END;
+
+
+---------------------------------------------------------------------------------
+--testing the package in anonymous block
+
+set serveroutput on;
+DECLARE
+  lv_name_txt VARCHAR2(20);
+  lv_id_num NUMBER(4);
+  lv_ord_dat DATE;
+BEGIN
+  lv_name_txt := order_info_pkg.ship_name_pf(14);
+  order_info_pkg.basket_info_pp(12,lv_id_num, lv_ord_dat);
+  DBMS_OUTPUT.PUT_LINE(lv_name_txt);
+  DBMS_OUTPUT.PUT_LINE(lv_id_num);
+  DBMS_OUTPUT.PUT_LINE(lv_ord_dat);
+END;
+
+
+
+select * from pp_payroll;
+DESC pp_payroll;
+SELECT * FROM PP_SALARY;
+
+
+
+--making trigger
+CREATE OR REPLACE TRIGGER pay_trig
+AFTER INSERT OR DELETE OR UPDATE ON PP_payroll
+FOR EACH ROW 
+BEGIN 
+if inserting then 
+update pp_salary set SALARYID =: New.SALARYID  where ;EMPID = :new.EMPID
+elsif 
+UPDATING THEN
+update pp_salary set SALARYID =: New.SALARYID  where ;EMPID = :new.EMPID
+end if;
+END;
+/
+UPDATE PP_payroll set salaryid = 33 where empid = 909;
+
+ROLLback;
+
+SELECT * FROM BB_BASKET;
+SELECT * FROM bb_basketitem;
+
+
+
+--triggers inside a package
+create OR REPLACE PACKAGE tirrger_pkg IS 
+PV_DISC_NUM  NUMBER(10) := 5;
+PV_DISC_TXT  CHAR(1):= 'n';
+END;
+/
+CREATE OR REPLACE TRIGGER bb_DISCOUNT_TRG
+AFTER INSERT OR DELETE OR UPDATE ON bb_basket 
+FOR EACH ROW
+WHEN (NEW.ORDERPLACED = 1)
+BEGIN
+IF DISC_PKG.PV_DISC_NUM = 5
+THEN  DISC_PKG.PV_DISC_TXT := 'Y';
+END IF;
+END;
+/
+begin
+  DISC_PKG.PV_DISC_TXT := 'N';
+  DISC_PKG.PV_DISC_NUM = 5
+end;
+BEGIN 
+UPDATE BB_BASKET SET ORDERPLACED = 1 WHERE IDBASKET = 13;
+DBMS_OUTPUT.PUT_LINE( DISC_PKG.PV_DISC_TXT);
+END;
+
